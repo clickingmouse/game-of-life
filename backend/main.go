@@ -37,6 +37,7 @@ func reader(conn *websocket.Conn) {
 
 //ws endpoint
 func serveWs(w http.ResponseWriter, r *http.Request) {
+
 	fmt.Println(r.Host)
 
 	//upgrade connection to ws connection
@@ -45,6 +46,7 @@ func serveWs(w http.ResponseWriter, r *http.Request) {
 		log.Println(err)
 	}
 	// listen indefinitely for msgs coming in
+
 	reader(ws)
 
 }
@@ -53,10 +55,13 @@ func setupRoutes() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		fmt.Fprintf(w, "Simple Server")
 	})
+	// m `/ws` endpoint to the `serveWs` function
+
+	http.HandleFunc("/ws", serveWs)
 }
 
 func main() {
-	//	fmt.Println("GOF v0.01")
+	fmt.Println("GOF v0.01")
 	setupRoutes()
 	http.ListenAndServe(":8080", nil)
 }
